@@ -185,7 +185,25 @@ function campaigntags_civicrm_buildForm($formName, &$form) {
       $form->setDefaults($defaults);
     }
 
+    // new tag
+    // Add the tag selector if some campaign tags are available
+    // todo why I had change to return CRM_Utils_Array::buildTree($allTags, $parentId); in getColorTags?
+    // todo parentId had to be set
+    $tags = CRM_Core_BAO_Tag::getColorTags('civicrm_goal_campaign');
+    if (!empty($tags)) {
+      $form->add('select2', 'taggoals', ts('Tags goals'), $tags, FALSE, array('class' => 'huge', 'placeholder' => ts('- select -'), 'multiple' => TRUE));
+    }
+    $parentNames = CRM_Core_BAO_Tag::getTagSet('civicrm_goal_campaign');
+    CRM_Core_Form_Tag::buildQuickForm($form, $parentNames, 'civicrm_goal_campaign', $campaign_id);
+
+    // set default tags if editing an existing campaign
+    if ($campaign_id) {
+      $defaults['taggoals'] = implode(',', CRM_Core_BAO_EntityTag::getTag($campaign_id, 'civicrm_goal_campaign'));
+      $form->setDefaults($defaults);
+    }
+
     CRM_Core_Region::instance('form-body')->add(array('template' => 'CRM/CampaignTags/Form/CampaignTags.tpl'));
+
   }
 }
 
@@ -232,6 +250,8 @@ function campaigntags_civicrm_postProcess($formName, &$form) {
         }
         CRM_Core_BAO_EntityTag::create($tagParams, 'civicrm_campaign', $campaign_id);
       }
+
+      // todo save new type of tag
     }
   }
 }
