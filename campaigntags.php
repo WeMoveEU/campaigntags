@@ -247,9 +247,18 @@ function campaigntags_civicrm_postProcess($formName, &$form) {
           }
         }
         CRM_Core_BAO_EntityTag::create($tagParams, 'civicrm_campaign', $campaign_id);
-      }
 
-      // todo save new type of tag
+        $tagGoalsParams = [];
+        if (!empty($params['taggoals'])) {
+          if (!is_array($params['taggoals'])) {
+            $params['taggoals'] = explode(',', $params['taggoals']);
+          }
+          foreach ($params['taggoals'] as $tag) {
+            $tagGoalsParams[$tag] = 1;
+          }
+        }
+        CRM_Core_BAO_EntityTag::create($tagGoalsParams, 'civicrm_goal_campaign', $campaign_id);
+      }
     }
   }
 }
