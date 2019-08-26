@@ -187,8 +187,6 @@ function campaigntags_civicrm_buildForm($formName, &$form) {
 
     // new tag
     // Add the tag selector if some campaign tags are available
-    // todo why I had change to return CRM_Utils_Array::buildTree($allTags, $parentId); in getColorTags?
-    // todo parentId had to be set
     $tags = CRM_Core_BAO_Tag::getColorTags('civicrm_goal_campaign');
     if (!empty($tags)) {
       $form->add('select2', 'taggoals', ts('Tags goals'), $tags, FALSE, array('class' => 'huge', 'placeholder' => ts('- select -'), 'multiple' => TRUE));

@@ -25,7 +25,7 @@
   cj(function($) {
     $('#campaigntags_src tr').detach().insertAfter('.crm-campaign-form-block-includeGroups');
     $('#campaigntags_src').remove();
-    $('#campaigntaggoalss_src tr').detach().insertAfter('.crm-campaign-form-block-includeGroups');
+    $('#campaigntaggoalss_src tr').detach().insertAfter('.crm-campaign-form-block-tag');
     $('#campaigntaggoalss_src').remove();
   });
 </script>
